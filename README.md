@@ -5,8 +5,8 @@
 
 ## 要求
 
-- ESP8266 板
-- DHT22 或类似的温湿度传感器
+- ESP8266或者ESP01/01S 板
+- DHT11 或类似的温湿度传感器
 - ESPHome 库
 - Home Assistant
 
