@@ -1,0 +1,60 @@
+esphome:
+  name: esp8266_display
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: "your_SSID"
+  password: "your_PASSWORD"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Esp8266 Display Fallback Hotspot"
+    password: "fallback_password"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "api_password"
+
+ota:
+  password: "ota_password"
+
+i2c:
+  sda: D2
+  scl: D1
+  scan: True
+
+font:
+  - file: "fonts/arial.ttf"
+    id: my_font
+    size: 20
+
+sensor:
+  - platform: dht
+    pin: D5
+    model: DHT11
+    temperature:
+      name: "DHT11 Temperature"
+      id: dht11_temperature
+    humidity:
+      name: "DHT11 Humidity"
+      id: dht11_humidity
+    update_interval: 60s
+
+time:
+  - platform: sntp
+    id: sntp_time
+
+display:
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    address: 0x3C
+    lambda: |-
+      it.printf(0, 0, id(my_font), "Temp: %.1f°C", id(dht11_temperature).state);
+      it.printf(0, 20, id(my_font), "Humidity: %.1f%%", id(dht11_humidity).state);
+      it.strftime(0, 40, id(my_font), "%H:%M:%S", id(sntp_time).now());
