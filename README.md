@@ -13,9 +13,10 @@
 ## 设置
 
 1. **安装 ESPHome**：按照 [ESPHome 安装指南](https://esphome.io/guides/installing_esphome.html) 在您的计算机上设置 ESPHome。
-2. **配置 ESPHome**：为您的 ESP8266 设备修改配置文件。
+2. **配置 ESPHome**：为您的 ESP8266 设备修改如下配置文件。替换为自己的2.4GWiFi名称和密码即可。
+
     ```yaml
-    
+
     wifi:
       ssid: "your_SSID"
       password: "your_PASSWORD"
