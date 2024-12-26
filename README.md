@@ -13,32 +13,13 @@
 ## 设置
 
 1. **安装 ESPHome**：按照 [ESPHome 安装指南](https://esphome.io/guides/installing_esphome.html) 在您的计算机上设置 ESPHome。
-2. **配置 ESPHome**：为您的 ESP8266 设备创建一个新的配置文件。以下是一个示例配置：
-
+2. **配置 ESPHome**：为您的 ESP8266 设备修改配置文件。
     ```yaml
-    esphome:
-      name: temp_time_sensor
-      platform: ESP8266
-      board: nodemcuv2
-
+    
     wifi:
       ssid: "your_SSID"
       password: "your_PASSWORD"
 
-    sensor:
-      - platform: dht
-        pin: D2
-        temperature:
-          name: "客厅温度"
-        humidity:
-          name: "客厅湿度"
-        update_interval: 60s
-
-    logger:
-
-    api:
-
-    ota:
     ```
 
 3. **上传配置**：将您的 ESP8266 连接到计算机，并使用 ESPHome 上传配置。
