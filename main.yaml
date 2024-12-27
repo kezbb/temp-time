@@ -1,60 +1,64 @@
+# esphome项目节点
 esphome:
-  name: esp8266_display
-  platform: ESP8266
-  board: nodemcuv2
-
+  name: test1
+# 开发版
+esp8266:
+  # 开发版版型
+  board: esp01_1m
+# wifi节点
 wifi:
-  ssid: "your_SSID"
-  password: "your_PASSWORD"
-
-  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ssid: "ImmortalWrt-2.4G"
+  password: "147258369"
   ap:
-    ssid: "Esp8266 Display Fallback Hotspot"
-    password: ""
-
+    ssid: "ESP_Access_Point"
+    password: "12345678"
+# 如果wifi连接失败，启动热点
 captive_portal:
-
-# Enable logging
+# web服务器，生产环境建议禁用
+# web_server:
+#   port: 80
+# 是否打印日志
 logger:
-
-# Enable Home Assistant API
+  level: debug
+# home assistant连接开发版的密码
 api:
-  password: "api_temptime"
-
-ota:
-  password: "ota_temptime"
-
-i2c:
-  sda: D2
-  scl: D1
-  scan: True
-
-font:
-  - file: "fonts/arial.ttf"
-    id: my_font
-    size: 20
-
-sensor:
-  - platform: dht
-    pin: D5
-    model: DHT11
-    temperature:
-      name: "DHT11 Temperature"
-      id: dht11_temperature
-    humidity:
-      name: "DHT11 Humidity"
-      id: dht11_humidity
-    update_interval: 60s
+  password: 'zxcvzxcv'
 
 time:
   - platform: sntp
-    id: sntp_time
+    id: esptime
+
+sensor:
+  - platform: dht
+    pin: GPIO3
+    temperature:
+      name: "Room Temperature"
+      id: room_temperature
+    humidity:
+      name: "Room Humidity"
+      id: room_humidity
+    update_interval: 10s
+    model: DHT11
+
+font:
+  - file: "Roboto-Light.ttf"
+    id: my_font
+    size: 16
+
+i2c:
+  sda: GPIO1
+  scl: GPIO2
 
 display:
   - platform: ssd1306_i2c
     model: "SSD1306 128x64"
+    reset_pin: GPIO0
     address: 0x3C
     lambda: |-
-      it.printf(0, 0, id(my_font), "Temp: %.1f°C", id(dht11_temperature).state);
-      it.printf(0, 20, id(my_font), "Humidity: %.1f%%", id(dht11_humidity).state);
-      it.strftime(0, 40, id(my_font), "%H:%M:%S", id(sntp_time).now());
+      it.strftime(0, 0, id(my_font), "%Y-%m-%d %H:%M", id(esptime).now());
+      char temp_str[10];
+      sprintf(temp_str, "%.2f", id(room_temperature).state);
+      it.print(0, 20, id(my_font), ("Temp: " + String(temp_str) + " °C").c_str());
+      char hum_str[10];
+      sprintf(hum_str, "%.2f", id(room_humidity).state);
+      it.print(0, 40, id(my_font), ("Humi: " + String(hum_str) + " %").c_str());
