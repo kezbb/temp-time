@@ -11,7 +11,7 @@ wifi:
   password: "147258369"
   ap:
     ssid: "ESP_Access_Point"
-    password: "12345678"
+    password: ""
 # 如果wifi连接失败，启动热点
 captive_portal:
 # web服务器，生产环境建议禁用
